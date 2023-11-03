@@ -1,9 +1,39 @@
 #include "frostbyte.h"
 
-#include <stdio.h>
+using namespace Frostbyte;
 
-namespace Frost {
-    void HelloWorld() {
-        printf("Hello World from Frostbyte!");
+int main(int argc, char** argv) {
+    Application* app = CreateApplication(argc, argv);
+
+    FrostbyteInstance instance = FrostbyteInstance(app);
+    instance.Start();
+
+    while (app->IsRunning())
+    {
+        instance.Update();
+    }
+
+    instance.Shutdown();
+}
+
+namespace Frostbyte {
+    FrostbyteInstance::FrostbyteInstance(Application* application)
+        : m_Application(application) {}
+
+    void FrostbyteInstance::Shutdown()
+    {
+        if (m_Application)
+        {
+            delete m_Application;
+            m_Application = nullptr;
+        }
+    }
+    void FrostbyteInstance::Start()
+    {
+        m_Application->OnInit();
+    }
+    void FrostbyteInstance::Update()
+    {
+        m_Application->OnUpdate();
     }
 }

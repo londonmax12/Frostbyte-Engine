@@ -1,7 +1,12 @@
 set(FROSTBYTE_SOURCES 
-    src/frostbyte.cpp
-)
+    src/Frostbyte.cpp
+    src/Application/Application.cpp
+    src/Logging/Logging.cpp
 
+    include/Frostbyte/Frostbyte.h
+    include/Frostbyte/Application/Application.h
+    include/Frostbyte/Logging/Logging.h
+)
 
 add_library(Frostbyte-Engine STATIC ${FROSTBYTE_SOURCES})
 
