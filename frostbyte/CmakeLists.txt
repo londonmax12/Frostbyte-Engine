@@ -1,0 +1,8 @@
+set(FROSTBYTE_SOURCES 
+    src/frostbyte.cpp
+)
+
+
+add_library(Frostbyte-Engine STATIC ${FROSTBYTE_SOURCES})
+
+target_include_directories(Frostbyte-Engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
