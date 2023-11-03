@@ -2,10 +2,14 @@ set(FROSTBYTE_SOURCES
     src/Frostbyte.cpp
     src/Application/Application.cpp
     src/Logging/Logging.cpp
+    src/Scene/SceneGraph.cpp
+    src/Scene/Layer.cpp
 
     include/Frostbyte/Frostbyte.h
     include/Frostbyte/Application/Application.h
     include/Frostbyte/Logging/Logging.h
+    include/Frostbyte/Scene/SceneGraph.h
+    include/Frostbyte/Scene/Layer.h
 )
 
 add_library(Frostbyte-Engine STATIC ${FROSTBYTE_SOURCES})

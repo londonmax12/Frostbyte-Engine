@@ -30,10 +30,10 @@ namespace Frostbyte {
     }
     void FrostbyteInstance::Start()
     {
-        m_Application->OnInit();
+        m_Application->Init();
     }
     void FrostbyteInstance::Update()
     {
-        m_Application->OnUpdate();
+        m_Application->Update();
     }
 }

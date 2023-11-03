@@ -1,14 +1,16 @@
 #include "Frostbyte.h"
 #include "Logging/Logging.h"
+
 #include <stdio.h>
+
+#include "SandboxLayer.h"
 
 class Sandbox : public Frostbyte::Application {
 public:
     bool OnInit() override {
-        LOG_INFO("Print {}", "World!");
+        SandboxLayer* layer = new SandboxLayer();
+        PushLayer(layer);
         return true;
-    }
-    void OnUpdate() override {
     }
 };
 

@@ -1,5 +1,6 @@
-set(SANDBOX_SOURCES 
-    src/sandbox.cpp
+set(SANDBOX_SOURCES
+    src/SandboxApp.cpp
+    src/SandboxLayer.h
 )
 
 add_executable(Sandbox ${SANDBOX_SOURCES})
