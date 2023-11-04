@@ -5,11 +5,11 @@ project(Frostbyte)
 # Set C++ version to C++17
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(frostbyte/include/frostbyte)
+include_directories(Frostbyte/include/frostbyte)
 
 # Projects
-add_subdirectory(sandbox)
-add_subdirectory(frostbyte)
+add_subdirectory(Frostbyte)
+add_subdirectory(Sandbox)
 
 # Set Sandbox to the startup project for Visual Studio
 set(VS_STARTUP_PROJECT, Sandbox)

@@ -8,8 +8,12 @@
 class Sandbox : public Frostbyte::Application {
 public:
     bool OnInit() override {
-        SandboxLayer* layer = new SandboxLayer();
-        PushLayer(layer);
+        Config.WindowConf.Width = 1600;
+        Config.WindowConf.Height = 900;
+        Config.WindowConf.Name = "Sandbox";
+
+        PushLayer(new SandboxLayer());
+
         return true;
     }
 };

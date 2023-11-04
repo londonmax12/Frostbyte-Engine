@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Platform/PlatformDetection.h"
+#include "Platform/Interfaces/IWindow.h"
 #include "Application/Application.h"
 
 int main(int argc, char** argv);
@@ -17,6 +19,7 @@ namespace Frostbyte {
             void Update();
 
         private:
+            IWindow* m_Window;
             Application* m_Application;
     };
 }

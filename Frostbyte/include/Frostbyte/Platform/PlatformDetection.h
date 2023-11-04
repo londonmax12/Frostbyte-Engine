@@ -1,0 +1,5 @@
+#ifdef _WIN32
+#define FROSTBYTE_PLATFORM_WINDOWS
+#else
+#define FROSTBYTE_PLATFORM_UNKNOWN
+#endif

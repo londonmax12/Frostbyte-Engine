@@ -12,11 +12,11 @@
 #define LOG_ERROR(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_ERROR, fmt, ##__VA_ARGS__)
 #define LOG_FATAL(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_FATAL, fmt, ##__VA_ARGS__)
 
-#define LOG_CORE_TRACE(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_TRACE, fmt, ##__VA_ARGS__)
-#define LOG_CORE_INFO(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_INFO, fmt, ##__VA_ARGS__)
-#define LOG_CORE_WARNING(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_WARNING, fmt, ##__VA_ARGS__)
-#define LOG_CORE_ERROR(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_ERROR, fmt, ##__VA_ARGS__)
-#define LOG_CORE_FATAL(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_FATAL, fmt, ##__VA_ARGS__)
+#define FROSTBYTE_TRACE(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_TRACE, fmt, ##__VA_ARGS__)
+#define FROSTBYTE_INFO(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_INFO, fmt, ##__VA_ARGS__)
+#define FROSTBYTE_WARNING(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_WARNING, fmt, ##__VA_ARGS__)
+#define FROSTBYTE_ERROR(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_ERROR, fmt, ##__VA_ARGS__)
+#define FROSTBYTE_FATAL(fmt, ...) Frostbyte::Logger::Log(Frostbyte::Logger::LOG_FATAL, fmt, ##__VA_ARGS__)
 
 namespace Frostbyte {
     class Logger {
