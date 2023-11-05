@@ -1,4 +1,4 @@
-#include "Platform/Interfaces/IWindow.h"
+#include "Interfaces/IWindow.h"
 #include "Platform/WindowsImpl/WindowsWindow.h"
 
 bool Frostbyte::IWindow::Init(const WindowConfig& config)

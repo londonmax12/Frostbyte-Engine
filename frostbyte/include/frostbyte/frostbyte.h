@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Platform/PlatformDetection.h"
-#include "Platform/Interfaces/IWindow.h"
+#include "Interfaces/IWindow.h"
 #include "Application/Application.h"
 
 int main(int argc, char** argv);

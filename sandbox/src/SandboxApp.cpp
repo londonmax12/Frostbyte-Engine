@@ -7,6 +7,8 @@
 
 class Sandbox : public Frostbyte::Application {
 public:
+    Sandbox() = default;
+
     bool OnInit() override {
         Config.WindowConf.Width = 1600;
         Config.WindowConf.Height = 900;

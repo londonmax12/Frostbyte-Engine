@@ -3,6 +3,10 @@
 #ifdef FROSTBYTE_PLATFORM_WINDOWS
 
 #include "Logging/Logging.h"
+#include "Application/EventDispatcher.h"
+#include "Event/WindowEvents.h"
+
+using namespace Frostbyte;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -10,8 +14,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
     case WM_CLOSE:
         DestroyWindow(hwnd);
+        Frostbyte::EventDispatcher::GetInstance()->QueueEvent((IEvent*)(new Frostbyte::WindowCloseEvent()));
         break;
     case WM_DESTROY:
+        Frostbyte::EventDispatcher::GetInstance()->QueueEvent((IEvent*)(new Frostbyte::WindowCloseEvent()));
         PostQuitMessage(0);
         break;
     default:
@@ -22,7 +28,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool Frostbyte::WindowsWindow::OnInit(const WindowConfig& config)
 {
-    FROSTBYTE_INFO("Creating Windows Window:");
+    FROSTBYTE_INFO("Creating Windows window:");
     FROSTBYTE_INFO("\t| Window Name: {}", config.Name);
     FROSTBYTE_INFO("\t| Size: [{}, {}]", config.Width, config.Height);
 

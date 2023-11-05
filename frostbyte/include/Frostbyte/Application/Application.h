@@ -1,9 +1,12 @@
 #include "Scene/SceneGraph.h"
-#include "Platform/Interfaces/IWindow.h"
+#include "Interfaces/IWindow.h"
+#include "Application/EventDispatcher.h"
 
 namespace Frostbyte {
     class Application {
     public:
+        Application() = default;
+
         struct ApplicationConfig
         {
             WindowConfig WindowConf;
@@ -22,6 +25,8 @@ namespace Frostbyte {
         void PushLayer(T* layer) {
             m_SceneGraph.GetRoot()->PushChild((Frostbyte::Layer*)layer);
         }
+
+        void OnEvent(IEvent* ev);
 
     protected:
         ApplicationConfig Config;

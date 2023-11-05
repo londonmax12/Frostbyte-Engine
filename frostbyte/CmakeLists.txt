@@ -1,21 +1,35 @@
 set(FROSTBYTE_SOURCES 
     src/Frostbyte.cpp
+
     src/Application/Application.cpp
+    src/Application/EventDispatcher.cpp
+
     src/Logging/Logging.cpp
+
     src/Scene/SceneGraph.cpp
     src/Scene/Layer.cpp
 
-    src/Platform/IWindow.cpp
+    src/Interfaces/IWindow.cpp
+
     src/Platform/WindowsImpl/WindowsWindow.cpp
 
+
     include/Frostbyte/Frostbyte.h
+    
     include/Frostbyte/Application/Application.h
+    include/Frostbyte/Application/EventDispatcher.h
+
     include/Frostbyte/Logging/Logging.h
+
     include/Frostbyte/Scene/SceneGraph.h
     include/Frostbyte/Scene/Layer.h
 
+    include/Frostbyte/Interfaces/IWindow.h
+
+    include/Frostbyte/Event/IEvent.h
+    include/Frostbyte/Event/WindowEvents.h
+
     include/Frostbyte/Platform/PlatformDetection.h
-    include/Frostbyte/Platform/Interfaces/IWindow.h
     include/Frostbyte/Platform/WindowsImpl/WindowsWindow.h
 )
 
