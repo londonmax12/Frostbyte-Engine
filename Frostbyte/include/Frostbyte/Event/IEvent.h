@@ -3,6 +3,7 @@
 namespace Frostbyte {
     enum EventType {
         EVENT_WINDOW_CLOSE,
+        EVENT_WINDOW_RESIZE,
     };
 
     class IEvent {

@@ -5,6 +5,12 @@
 
 bool Frostbyte::Application::Init()
 {
+    if (m_Instance) {
+        FROSTBYTE_FATAL("Failed to initialize application: Instance already exists");
+        return false;
+    }
+    m_Instance = this;
+
     FROSTBYTE_INFO("Initializing scene graph");
     if (!m_SceneGraph.Init()) {
         FROSTBYTE_FATAL("Failed to initialize scene graph");

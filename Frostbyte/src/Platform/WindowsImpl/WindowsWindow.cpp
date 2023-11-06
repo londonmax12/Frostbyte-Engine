@@ -14,23 +14,33 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
     case WM_CLOSE:
         DestroyWindow(hwnd);
-        Frostbyte::EventDispatcher::GetInstance()->QueueEvent((IEvent*)(new Frostbyte::WindowCloseEvent()));
+        Frostbyte::EventDispatcher::GetInstance()->QueueEvent((IEvent*)new Frostbyte::WindowCloseEvent());
         break;
     case WM_DESTROY:
-        Frostbyte::EventDispatcher::GetInstance()->QueueEvent((IEvent*)(new Frostbyte::WindowCloseEvent()));
+        Frostbyte::EventDispatcher::GetInstance()->QueueEvent((IEvent*)new Frostbyte::WindowCloseEvent());
         PostQuitMessage(0);
         break;
-    default:
-        return DefWindowProc(hwnd, msg, wParam, lParam);
+    case WM_SIZE:
+        Frostbyte::EventDispatcher::GetInstance()->QueueEvent((IEvent*)new Frostbyte::WindowResizeEvent({ LOWORD(lParam), HIWORD(lParam) }));
+        break;
+    case WM_PAINT: {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hwnd, &ps);
+
+        EndPaint(hwnd, &ps);
+        break;
     }
-    return 0;
+    default:
+        break;
+    }
+    return DefWindowProcA(hwnd, msg, wParam, lParam);
 }
 
 bool Frostbyte::WindowsWindow::OnInit(const WindowConfig& config)
 {
     FROSTBYTE_INFO("Creating Windows window:");
     FROSTBYTE_INFO("\t| Window Name: {}", config.Name);
-    FROSTBYTE_INFO("\t| Size: [{}, {}]", config.Width, config.Height);
+    FROSTBYTE_INFO("\t| Size: {}", config.WindowSize);
 
     m_WindowData = malloc(sizeof(WindowsWindowData));
     WindowsWindowData* windowData = (WindowsWindowData*)m_WindowData;
@@ -46,11 +56,12 @@ bool Frostbyte::WindowsWindow::OnInit(const WindowConfig& config)
         config.Name,
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT,
-        config.Width, config.Height,
+        config.WindowSize.x, config.WindowSize.y,
         NULL,
         NULL,
         GetModuleHandle(NULL),
-        NULL);
+        NULL
+    );
 
     if (!windowData->Handle) {
         FROSTBYTE_INFO("Failed to create Win32 Window: {}", config.Name);
@@ -59,7 +70,10 @@ bool Frostbyte::WindowsWindow::OnInit(const WindowConfig& config)
 
     ShowWindow(windowData->Handle, SW_SHOWDEFAULT);
     UpdateWindow(windowData->Handle);
-    
+
+    Frostbyte::EventDispatcher::GetInstance()->AddListener(EVENT_WINDOW_RESIZE, [&](IEvent* e){ 
+        m_Size = ((WindowResizeEvent*)e)->Size;
+    });
 	return true;
 }
 void Frostbyte::WindowsWindow::OnShutdown()
@@ -70,11 +84,13 @@ void Frostbyte::WindowsWindow::OnShutdown()
 void Frostbyte::WindowsWindow::OnUpdate()
 {
     MSG msg = {};
-    if (GetMessage(&msg, NULL, 0, 0)) {
+    if (GetMessage(&msg, 0, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
 }
+void Frostbyte::WindowsWindow::OnResize(VectorInt2)
+{
+    
+}
 #endif FROSTBYTE_PLATFORM_WINDOWS
-
-

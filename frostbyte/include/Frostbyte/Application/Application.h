@@ -6,6 +6,8 @@ namespace Frostbyte {
     class Application {
     public:
         Application() = default;
+        
+        static Application* GetInstance() { return m_Instance; }
 
         struct ApplicationConfig
         {
@@ -17,6 +19,7 @@ namespace Frostbyte {
         void Shutdown();
 
         bool IsRunning() { return m_Running; }
+        IWindow* GetWindow() { return m_Window; }
 
         // Virtual functions to be overwritten
         virtual bool OnInit() { return true; };
@@ -32,8 +35,10 @@ namespace Frostbyte {
         ApplicationConfig Config;
 
     private:
+        inline static Application* m_Instance = nullptr;
+        
         bool m_Running = true;
-
+        
         IWindow* m_Window = nullptr;
         SceneGraph m_SceneGraph;
     };

@@ -13,6 +13,7 @@ namespace Frostbyte {
 		bool OnInit(const WindowConfig& config) override;
 		void OnShutdown() override;
 		void OnUpdate() override;
+		void OnResize(VectorInt2) override;
 
 	private:
 		struct WindowsWindowData

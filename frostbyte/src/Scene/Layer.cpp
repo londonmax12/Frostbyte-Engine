@@ -5,7 +5,7 @@ void Frostbyte::Layer::Render()
 	for (auto& child : m_Children) {
 		child->Render();
 	}
-	OnRender();
+	OnUpdate();
 }
 
 void Frostbyte::Layer::PushChild(Layer* sceneNode)

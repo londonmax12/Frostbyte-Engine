@@ -12,7 +12,7 @@ namespace Frostbyte {
 
 	private:
 		virtual void OnInit() {};
-		virtual void OnRender() {};
+		virtual void OnUpdate() {};
 
 		std::vector<Layer*> m_Children;
 	};

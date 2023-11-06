@@ -10,8 +10,7 @@ public:
     Sandbox() = default;
 
     bool OnInit() override {
-        Config.WindowConf.Width = 1600;
-        Config.WindowConf.Height = 900;
+        Config.WindowConf.WindowSize = VectorInt2(1600, 900);
         Config.WindowConf.Name = "Sandbox";
 
         PushLayer(new SandboxLayer());

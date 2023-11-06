@@ -26,6 +26,8 @@ set(FROSTBYTE_SOURCES
 
     include/Frostbyte/Interfaces/IWindow.h
 
+    include/Frostbyte/Math/Vector.h
+
     include/Frostbyte/Event/IEvent.h
     include/Frostbyte/Event/WindowEvents.h
 
