@@ -7,6 +7,12 @@
 
 bool Frostbyte::Application::Init()
 {
+    if (!IPlatform::Init()) {
+        FROSTBYTE_ERROR("Failed to initialize platform");
+        return false;
+    }
+    FROSTBYTE_INFO("Initialized platform");
+
     if (m_Instance) {
         FROSTBYTE_FATAL("Failed to initialize application: Instance already exists");
         return false;
@@ -46,12 +52,6 @@ bool Frostbyte::Application::Init()
         return false;
     }
 
-    FROSTBYTE_INFO("Initializing platform");
-    if (!IPlatform::Init()) {
-        FROSTBYTE_ERROR("Failed to initialize platform");
-        return false;
-    }
-
     FROSTBYTE_INFO("Initializing renderer");
     m_Renderer = new Renderer();
     if (!m_Renderer->Init(Renderer::RENDERER_BACKEND_VULKAN)) {
@@ -84,19 +84,22 @@ void Frostbyte::Application::Shutdown()
 
     if (m_Window)
     {
+        FROSTBYTE_ERROR("Destroying window")
         m_Window->Shutdown();
         delete m_Window;
     }
 
+    FROSTBYTE_ERROR("Destroying event dispatcher")
     EventDispatcher::Shutdown();
 
-    IPlatform::Shutdown();
-
     if (m_Renderer) {
+        FROSTBYTE_ERROR("Destroying renderer")
         m_Renderer->Shutdown();
         delete m_Renderer;
     }
 
+    FROSTBYTE_ERROR("Destroying platform")
+    IPlatform::Shutdown();
 }
 
 void Frostbyte::Application::OnEvent(IEvent* ev)

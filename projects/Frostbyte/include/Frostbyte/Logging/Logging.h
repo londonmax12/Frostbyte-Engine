@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Platform/IPlatform.h"
+
 #include <iostream>
 #include <chrono>
 #include <iomanip>
@@ -53,12 +55,12 @@ namespace Frostbyte {
                 break;
             }
 
-            if (code > LOG_WARNING) {
-                std::cerr << time << codeString << msg << "\n";
-            }
-            else {
-                std::cout << time << codeString << msg << "\n";
-            }
+            if (code == LOG_ERROR)
+                IPlatform::GetInstance()->PrintError(time + codeString + msg);
+            else if (code == LOG_WARNING) 
+                IPlatform::GetInstance()->PrintWarning(time + codeString + msg);
+            else 
+                IPlatform::GetInstance()->Print(time + codeString + msg);
         }
 
         template<typename... Args>
