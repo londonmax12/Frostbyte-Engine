@@ -1,15 +1,18 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.7)
 
 project(Frostbyte)
 
 # Set C++ version to C++17
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(Frostbyte/include/frostbyte)
+include_directories(Projects/Frostbyte/include/frostbyte)
 
 # Projects
-add_subdirectory(Frostbyte)
-add_subdirectory(Sandbox)
+add_subdirectory(Projects/Frostbyte)
+add_subdirectory(Projects/Sandbox)
+
+# Startup project for Visual Studio
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)
 
 # Set Sandbox to the startup project for Visual Studio
 set(VS_STARTUP_PROJECT, Sandbox)
