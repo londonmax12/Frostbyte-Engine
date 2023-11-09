@@ -14,6 +14,7 @@ set(FROSTBYTE_SOURCES
     src/Renderer/Renderer.cpp
     src/Renderer/VulkanImpl/VulkanRendererBackend.cpp
     src/Renderer/VulkanImpl/VulkanDevice.cpp
+    src/Renderer/VulkanImpl/VulkanUtils.cpp
     
     include/Frostbyte/Frostbyte.h
     include/Frostbyte/Application/Application.h
@@ -35,6 +36,7 @@ set(FROSTBYTE_SOURCES
     include/Frostbyte/Renderer/IRendererBackend.h
     include/Frostbyte/Renderer/VulkanImpl/VulkanRendererBackend.h
     include/Frostbyte/Renderer/VulkanImpl/VulkanDevice.h
+    include/Frostbyte/Renderer/VulkanImpl/VulkanUtils.h
     include/Frostbyte/Renderer/VulkanImpl/VulkanStructs.h
 )
 

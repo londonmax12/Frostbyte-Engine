@@ -16,7 +16,7 @@ namespace Frostbyte {
 
 	private:
 		bool CreateInstance();
-		bool HasValidationLayers(const std::vector<const char*> validationLayers);
+		bool HasValidationLayers();
 
 		VulkanContext m_Context;
 

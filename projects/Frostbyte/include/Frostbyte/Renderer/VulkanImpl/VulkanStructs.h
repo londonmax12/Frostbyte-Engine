@@ -8,5 +8,9 @@ namespace Frostbyte {
 	struct VulkanContext {
 		VkInstance Instance;
 		VulkanDevice* Device;
+
+		bool ValidationLayersEnabled;
+		uint32_t ValidationLayerCount;
+		const char** ValidationLayers;
 	};
 }

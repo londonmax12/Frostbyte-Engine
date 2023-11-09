@@ -1,4 +1,5 @@
 #include "Renderer/VulkanImpl/VulkanRendererBackend.h"
+#include "Renderer/VulkanImpl/VulkanUtils.h"
 #include "Logging/Logging.h"
 #include "Platform/IPlatform.h"
 
@@ -78,6 +79,13 @@ void Frostbyte::VulkanRendererBackend::Update()
 
 void Frostbyte::VulkanRendererBackend::Shutdown()
 {
+	if (m_Context.ValidationLayersEnabled) {
+		if (m_Context.ValidationLayers != nullptr) {
+			free(m_Context.ValidationLayers);
+		}
+	}
+
+	FROSTBYTE_INFO("Destroying Vulkan logical device");
 	if (m_Context.Device) {
 		m_Context.Device->Shutdown();
 		delete m_Context.Device;
@@ -90,6 +98,8 @@ void Frostbyte::VulkanRendererBackend::Shutdown()
 
 	FROSTBYTE_INFO("Destroying Vulkan instance");
 	vkDestroyInstance(m_Context.Instance, nullptr);
+
+	m_Context = VulkanContext();
 }
 
 bool Frostbyte::VulkanRendererBackend::CreateInstance()
@@ -111,7 +121,10 @@ bool Frostbyte::VulkanRendererBackend::CreateInstance()
 	IPlatform::GetInstance()->GetVulkanExtentions(&platformExtensionCount, &platformExtensions);
 
 	std::vector<const char*> reqExtensions = std::vector<const char*>({ VK_KHR_SURFACE_EXTENSION_NAME });
+
+	m_Context.ValidationLayersEnabled = false;
 #ifdef _DEBUG
+	m_Context.ValidationLayersEnabled = true;
 	reqExtensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 #endif
 
@@ -121,8 +134,10 @@ bool Frostbyte::VulkanRendererBackend::CreateInstance()
 
 	uint32_t extensionCount = 0;
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+
 	std::vector<VkExtensionProperties> extensions(extensionCount);
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+
 	for (const auto& reqExtension : reqExtensions) {
 		bool found = false;
 		for (const auto& extension : extensions)
@@ -140,26 +155,28 @@ bool Frostbyte::VulkanRendererBackend::CreateInstance()
 	instanceCreateInfo.enabledExtensionCount = (uint32_t)reqExtensions.size();
 	instanceCreateInfo.ppEnabledExtensionNames = reqExtensions.data();
 	instanceCreateInfo.enabledLayerCount = 0;
+	instanceCreateInfo.ppEnabledLayerNames = 0;
 
-#ifdef _DEBUG
-	const std::vector<const char*> validationLayers = { "VK_LAYER_KHRONOS_validation" };
-	if (!HasValidationLayers(validationLayers)) {
-		FROSTBYTE_ERROR("Failed to create Vulkan instance: Validation layers missing");
-		return false;
+	m_Context.ValidationLayerCount = 1;
+	m_Context.ValidationLayers = (const char**)malloc(m_Context.ValidationLayerCount * sizeof(const char*));
+	m_Context.ValidationLayers[0] = "VK_LAYER_KHRONOS_validation";
+
+	if (m_Context.ValidationLayers) {
+		if (!HasValidationLayers()) {
+			FROSTBYTE_ERROR("Failed to create Vulkan instance: Validation layers missing");
+			return false;
+		}
+		instanceCreateInfo.enabledLayerCount = m_Context.ValidationLayerCount;
+		instanceCreateInfo.ppEnabledLayerNames = m_Context.ValidationLayers;
 	}
-	instanceCreateInfo.enabledLayerCount = (uint32_t)validationLayers.size();
-	instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
-#endif
 
-	if (vkCreateInstance(&instanceCreateInfo, nullptr, &m_Context.Instance) != VK_SUCCESS) {
-		FROSTBYTE_ERROR("Failed to create Vulkan instance");
+	if (VK_CHECK(vkCreateInstance(&instanceCreateInfo, nullptr, &m_Context.Instance)))
 		return false;
-	}
 
-	return false;
+	return true;
 }
 
-bool Frostbyte::VulkanRendererBackend::HasValidationLayers(const std::vector<const char*> validationLayers)
+bool Frostbyte::VulkanRendererBackend::HasValidationLayers()
 {
 	uint32_t layerCount;
 	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
@@ -167,7 +184,8 @@ bool Frostbyte::VulkanRendererBackend::HasValidationLayers(const std::vector<con
 	std::vector<VkLayerProperties> availableLayers(layerCount);
 	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 	
-	for (const char* layerName : validationLayers) {
+	for (int i = 0; i < m_Context.ValidationLayerCount; i++) {
+		const char* layerName = m_Context.ValidationLayers[i];
 		bool layerFound = false;
 
 		for (const auto& layerProperties : availableLayers) {

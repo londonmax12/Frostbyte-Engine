@@ -15,9 +15,12 @@ namespace Frostbyte {
 	private:
 		bool PickDevice(VulkanContext* context);
 		bool FindQueueFamilies(VkPhysicalDevice device);
+		bool CreateLogicalDevice(VulkanContext* context);
 
 		QueueFamilyIndices m_QueueIndices;
 
+		VkQueue m_GraphicsQueue;
 		VkPhysicalDevice m_Physical = VK_NULL_HANDLE;
+		VkDevice m_Device = VK_NULL_HANDLE;
 	};
 }
