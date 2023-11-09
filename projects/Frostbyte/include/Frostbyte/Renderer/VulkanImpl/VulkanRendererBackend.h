@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include <vulkan/vulkan.h>
+#include "Renderer/VulkanImpl/VulkanDevice.h"
 
 namespace Frostbyte {
 	class VulkanRendererBackend : public IRendererBackend
@@ -18,7 +18,7 @@ namespace Frostbyte {
 		bool CreateInstance();
 		bool HasValidationLayers(const std::vector<const char*> validationLayers);
 
-		VkInstance m_Instance;
+		VulkanContext m_Context;
 
 #ifdef _DEBUG
 		bool CreateMessenger();

@@ -46,7 +46,7 @@ bool Frostbyte::VulkanRendererBackend::CreateMessenger()
 	messengerCreateInfo.pfnUserCallback = DebugCallback;
 	messengerCreateInfo.pUserData = nullptr;
 
-	if (CreateDebugUtilsMessengerEXT(m_Instance, &messengerCreateInfo, nullptr, &m_DebugMessenger) != VK_SUCCESS) {
+	if (CreateDebugUtilsMessengerEXT(m_Context.Instance, &messengerCreateInfo, nullptr, &m_DebugMessenger) != VK_SUCCESS) {
 		FROSTBYTE_ERROR("Failed to create Vulkan messenger");
 		return false;
 	}
@@ -65,6 +65,10 @@ bool Frostbyte::VulkanRendererBackend::Init()
 	CreateMessenger();
 #endif
 
+	FROSTBYTE_INFO("Initializing Vulkan physical device");
+	m_Context.Device = new VulkanDevice();
+	m_Context.Device->Init(&m_Context);
+
 	return true;
 }
 
@@ -74,13 +78,18 @@ void Frostbyte::VulkanRendererBackend::Update()
 
 void Frostbyte::VulkanRendererBackend::Shutdown()
 {
+	if (m_Context.Device) {
+		m_Context.Device->Shutdown();
+		delete m_Context.Device;
+	}
+
 #ifdef _DEBUG
 	FROSTBYTE_INFO("Destroying Vulkan messenger");
-	DestroyDebugUtilsMessengerEXT(m_Instance, m_DebugMessenger, nullptr);
+	DestroyDebugUtilsMessengerEXT(m_Context.Instance, m_DebugMessenger, nullptr);
 #endif
 
 	FROSTBYTE_INFO("Destroying Vulkan instance");
-	vkDestroyInstance(m_Instance, nullptr);
+	vkDestroyInstance(m_Context.Instance, nullptr);
 }
 
 bool Frostbyte::VulkanRendererBackend::CreateInstance()
@@ -142,10 +151,11 @@ bool Frostbyte::VulkanRendererBackend::CreateInstance()
 	instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
 #endif
 
-	if (vkCreateInstance(&instanceCreateInfo, nullptr, &m_Instance) != VK_SUCCESS) {
+	if (vkCreateInstance(&instanceCreateInfo, nullptr, &m_Context.Instance) != VK_SUCCESS) {
 		FROSTBYTE_ERROR("Failed to create Vulkan instance");
 		return false;
 	}
+
 	return false;
 }
 

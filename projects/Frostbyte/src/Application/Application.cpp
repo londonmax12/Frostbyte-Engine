@@ -84,21 +84,21 @@ void Frostbyte::Application::Shutdown()
 
     if (m_Window)
     {
-        FROSTBYTE_ERROR("Destroying window")
+        FROSTBYTE_INFO("Destroying window");
         m_Window->Shutdown();
         delete m_Window;
     }
 
-    FROSTBYTE_ERROR("Destroying event dispatcher")
+    FROSTBYTE_INFO("Destroying event dispatcher");
     EventDispatcher::Shutdown();
 
     if (m_Renderer) {
-        FROSTBYTE_ERROR("Destroying renderer")
+        FROSTBYTE_INFO("Destroying renderer");
         m_Renderer->Shutdown();
         delete m_Renderer;
     }
 
-    FROSTBYTE_ERROR("Destroying platform")
+    FROSTBYTE_INFO("Destroying platform");
     IPlatform::Shutdown();
 }
 
