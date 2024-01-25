@@ -11,10 +11,13 @@ set(FROSTBYTE_SOURCES
     src/Platform/LinuxImpl/LinuxPlatform.cpp
     src/Platform/WindowsImpl/WindowsWindow.cpp
     src/Platform/WindowsImpl/WindowsPlatform.cpp
+    src/Platform/WindowsImpl/Vulkan/WindowsVulkanSurface.cpp
     src/Renderer/Renderer.cpp
     src/Renderer/VulkanImpl/VulkanRendererBackend.cpp
     src/Renderer/VulkanImpl/VulkanDevice.cpp
     src/Renderer/VulkanImpl/VulkanUtils.cpp
+    src/Renderer/VulkanImpl/IVulkanSurface.cpp
+
     
     include/Frostbyte/Frostbyte.h
     include/Frostbyte/Application/Application.h
@@ -30,6 +33,7 @@ set(FROSTBYTE_SOURCES
     include/Frostbyte/Platform/IPlatform.h
     include/Frostbyte/Platform/WindowsImpl/WindowsWindow.h
     include/Frostbyte/Platform/WindowsImpl/WindowsPlatform.h
+    include/Frostbyte/Platform/WindowsImpl/Vulkan/WindowsVulkanSurface.h
     include/Frostbyte/Platform/LinuxImpl/LinuxWindow.h
     include/Frostbyte/Platform/LinuxImpl/LinuxPlatform.h
     include/Frostbyte/Renderer/Renderer.h
@@ -38,6 +42,7 @@ set(FROSTBYTE_SOURCES
     include/Frostbyte/Renderer/VulkanImpl/VulkanDevice.h
     include/Frostbyte/Renderer/VulkanImpl/VulkanUtils.h
     include/Frostbyte/Renderer/VulkanImpl/VulkanStructs.h
+    include/Frostbyte/Renderer/VulkanImpl/IVulkanSurface.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${FROSTBYTE_SOURCES})

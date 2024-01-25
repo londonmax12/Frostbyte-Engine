@@ -59,16 +59,34 @@ bool Frostbyte::VulkanRendererBackend::CreateMessenger()
 bool Frostbyte::VulkanRendererBackend::Init()
 {
 	FROSTBYTE_INFO("Creating Vulkan instance");
-	CreateInstance();
+	if (!CreateInstance())
+	{
+		FROSTBYTE_FATAL("Failed to create vulkan instance");
+		return false;
+	}
 
 #ifdef _DEBUG
 	FROSTBYTE_INFO("Creating Vulkan messenger");
-	CreateMessenger();
+	if (!CreateMessenger()) {
+		FROSTBYTE_FATAL("Failed to create vulkan messenger");
+		return false;
+	}
 #endif
 
-	FROSTBYTE_INFO("Initializing Vulkan physical device");
+	FROSTBYTE_INFO("Initializing Vulkan device");
 	m_Context.Device = new VulkanDevice();
-	m_Context.Device->Init(&m_Context);
+	if (!m_Context.Device->Init(&m_Context))
+	{
+		FROSTBYTE_FATAL("Failed to initialize Vulkan device");
+		return false;
+	}
+
+	FROSTBYTE_INFO("Creating Vulkan rendering surface");
+	m_Context.Surface = IVulkanSurface::Create();
+	if (!m_Context.Surface->Init()) {
+		FROSTBYTE_FATAL("Failed to create Vulkan rendering surface");
+		return false;
+	}
 
 	return true;
 }
@@ -169,8 +187,8 @@ bool Frostbyte::VulkanRendererBackend::CreateInstance()
 		instanceCreateInfo.enabledLayerCount = m_Context.ValidationLayerCount;
 		instanceCreateInfo.ppEnabledLayerNames = m_Context.ValidationLayers;
 	}
-
-	if (VK_CHECK(vkCreateInstance(&instanceCreateInfo, nullptr, &m_Context.Instance)))
+	VkResult result = vkCreateInstance(&instanceCreateInfo, nullptr, &m_Context.Instance);
+	if (!VK_CHECK(result))
 		return false;
 
 	return true;

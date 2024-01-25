@@ -55,7 +55,7 @@ namespace Frostbyte {
                 break;
             }
 
-            if (code == LOG_ERROR)
+            if (code >= LOG_ERROR)
                 IPlatform::GetInstance()->PrintError(time + codeString + msg);
             else if (code == LOG_WARNING) 
                 IPlatform::GetInstance()->PrintWarning(time + codeString + msg);

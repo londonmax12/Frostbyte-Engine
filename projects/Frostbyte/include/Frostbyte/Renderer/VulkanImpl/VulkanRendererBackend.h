@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Renderer/VulkanImpl/VulkanDevice.h"
+#include "Renderer/VulkanImpl/IVulkanSurface.h"
 
 namespace Frostbyte {
 	class VulkanRendererBackend : public IRendererBackend

@@ -98,7 +98,7 @@ void Frostbyte::Application::Shutdown()
         delete m_Renderer;
     }
 
-    FROSTBYTE_INFO("Destroying platform");
+    FROSTBYTE_INFO("Destroying platform interface");
     IPlatform::Shutdown();
 }
 
