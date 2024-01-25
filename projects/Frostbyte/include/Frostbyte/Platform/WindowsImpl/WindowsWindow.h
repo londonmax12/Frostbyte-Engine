@@ -15,7 +15,6 @@ namespace Frostbyte {
 		void OnUpdate() override;
 		void OnResize(VectorInt2) override;
 
-	private:
 		struct WindowsWindowData
 		{
 			WindowsWindowData(HWND handle)

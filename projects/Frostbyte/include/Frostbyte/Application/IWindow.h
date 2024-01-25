@@ -23,7 +23,7 @@ namespace Frostbyte {
 		void Update();
 		
 		VectorInt2 GetSize() { return m_Size; }
-
+		void* RawData() { return m_WindowData; }
 	protected:
 		virtual bool OnInit(const WindowConfig& config) = 0;
 		virtual void OnShutdown() = 0;

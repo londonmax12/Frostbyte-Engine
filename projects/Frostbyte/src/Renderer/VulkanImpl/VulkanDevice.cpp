@@ -3,7 +3,7 @@
 
 #include "Logging/Logging.h"
 
-bool Frostbyte::VulkanDevice::Init(VulkanContext* context)
+bool Frostbyte::VulkanDevice::Init(const VulkanContext& context)
 {
 	FROSTBYTE_INFO("Picking physical device");
 	if (!PickDevice(context))
@@ -23,10 +23,10 @@ void Frostbyte::VulkanDevice::Shutdown()
 	}
 }
 
-bool Frostbyte::VulkanDevice::PickDevice(VulkanContext* context)
+bool Frostbyte::VulkanDevice::PickDevice(const VulkanContext& context)
 {
 	uint32_t deviceCount = 0;
-	vkEnumeratePhysicalDevices(context->Instance, &deviceCount, nullptr);
+	vkEnumeratePhysicalDevices(context.Instance, &deviceCount, nullptr);
 
 	if (!deviceCount) {
 		FROSTBYTE_ERROR("Failed to find suitable graphics device for Vulkan");
@@ -34,7 +34,7 @@ bool Frostbyte::VulkanDevice::PickDevice(VulkanContext* context)
 	}
 
 	VkPhysicalDevice* devices = (VkPhysicalDevice*)malloc(deviceCount * sizeof(VkPhysicalDevice));
-	vkEnumeratePhysicalDevices(context->Instance, &deviceCount, devices);
+	vkEnumeratePhysicalDevices(context.Instance, &deviceCount, devices);
 
 	int bestScore = 0;
 
@@ -104,7 +104,7 @@ bool Frostbyte::VulkanDevice::FindQueueFamilies(VkPhysicalDevice device)
 	return true;
 }
 
-bool Frostbyte::VulkanDevice::CreateLogicalDevice(VulkanContext* context)
+bool Frostbyte::VulkanDevice::CreateLogicalDevice(const VulkanContext& context)
 {
 	float queuePriority[1] = { 1.0f };
 
@@ -124,9 +124,9 @@ bool Frostbyte::VulkanDevice::CreateLogicalDevice(VulkanContext* context)
 	deviceCreateInfo.enabledExtensionCount = 0;
 	deviceCreateInfo.enabledLayerCount = 0;
 
-	if (context->ValidationLayersEnabled) {
-		deviceCreateInfo.enabledLayerCount = context->ValidationLayerCount;
-		deviceCreateInfo.ppEnabledLayerNames = context->ValidationLayers;
+	if (context.ValidationLayersEnabled) {
+		deviceCreateInfo.enabledLayerCount = context.ValidationLayerCount;
+		deviceCreateInfo.ppEnabledLayerNames = context.ValidationLayers;
 	}
 
 	if (!VK_CHECK(vkCreateDevice(m_Physical, &deviceCreateInfo, 0, &m_Device)))

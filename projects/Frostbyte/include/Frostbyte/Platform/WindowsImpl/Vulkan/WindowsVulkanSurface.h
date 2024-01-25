@@ -10,7 +10,7 @@ namespace Frostbyte {
 	class WindowsVulkanSurface : public IVulkanSurface
 	{
 		public:
-			bool Init() override;
+			bool Init(const VulkanContext& context) override;
 			void Shutdown() override;
 	};
 }

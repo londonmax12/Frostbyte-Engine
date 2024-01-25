@@ -75,7 +75,7 @@ bool Frostbyte::VulkanRendererBackend::Init()
 
 	FROSTBYTE_INFO("Initializing Vulkan device");
 	m_Context.Device = new VulkanDevice();
-	if (!m_Context.Device->Init(&m_Context))
+	if (!m_Context.Device->Init(m_Context))
 	{
 		FROSTBYTE_FATAL("Failed to initialize Vulkan device");
 		return false;
@@ -83,7 +83,7 @@ bool Frostbyte::VulkanRendererBackend::Init()
 
 	FROSTBYTE_INFO("Creating Vulkan rendering surface");
 	m_Context.Surface = IVulkanSurface::Create();
-	if (!m_Context.Surface->Init()) {
+	if (!m_Context.Surface->Init(m_Context)) {
 		FROSTBYTE_FATAL("Failed to create Vulkan rendering surface");
 		return false;
 	}
@@ -97,6 +97,12 @@ void Frostbyte::VulkanRendererBackend::Update()
 
 void Frostbyte::VulkanRendererBackend::Shutdown()
 {
+	FROSTBYTE_INFO("Destroying Vulkan rendering surface");
+	if (m_Context.Surface) {
+		m_Context.Surface->Shutdown();
+		delete m_Context.Surface;
+	}
+
 	if (m_Context.ValidationLayersEnabled) {
 		if (m_Context.ValidationLayers != nullptr) {
 			free(m_Context.ValidationLayers);

@@ -9,13 +9,13 @@ namespace Frostbyte {
 			uint32_t GraphicsQueue;
 		};
 
-		bool Init(VulkanContext* context);
+		bool Init(const VulkanContext& context);
 		void Shutdown();
 
 	private:
-		bool PickDevice(VulkanContext* context);
+		bool PickDevice(const VulkanContext& context);
 		bool FindQueueFamilies(VkPhysicalDevice device);
-		bool CreateLogicalDevice(VulkanContext* context);
+		bool CreateLogicalDevice(const VulkanContext& context);
 
 		QueueFamilyIndices m_QueueIndices;
 
