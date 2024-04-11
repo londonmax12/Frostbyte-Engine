@@ -12,6 +12,8 @@ namespace Frostbyte {
 		public:
 			bool Init(const VulkanContext& context) override;
 			void Shutdown() override;
+		private:
+			VulkanContext& m_Context;
 	};
 }
 #endif

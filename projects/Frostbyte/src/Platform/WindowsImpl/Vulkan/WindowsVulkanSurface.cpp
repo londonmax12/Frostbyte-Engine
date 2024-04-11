@@ -9,6 +9,7 @@
 
 bool Frostbyte::WindowsVulkanSurface::Init(const VulkanContext& context)
 {
+	m_Context = context;
 	WindowsWindow::WindowsWindowData* windowData = (WindowsWindow::WindowsWindowData*)Application::GetInstance()->GetWindow()->RawData();
 
 	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
@@ -26,6 +27,7 @@ bool Frostbyte::WindowsVulkanSurface::Init(const VulkanContext& context)
 
 void Frostbyte::WindowsVulkanSurface::Shutdown()
 {
+	vkDestroySurfaceKHR(m_Context.Instance, m_Surface, nullptr);
 }
 #endif
 
